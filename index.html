@@ -14,7 +14,7 @@
 
         <div class="tool-grid">
 
-           <button class="btn setting"><i class="fa-solid fa-bars"></i></button>
+           <button class="btn settings"><i class="fa-solid fa-bars"></i></button>
 
         </div>
         <div class="drawing-grid"></div>
@@ -24,10 +24,20 @@
 
     <div id="settings-container">
         <div id="settings">
-
-        <div id="setting-close-button">&times;</div>
+        <button id="setting-close-button">&times;</button>
+        <div id="sliders">
+            <div class="gridSlider">
+                <p id="gridRangeValue">16x16</p>
+                <input type="range" min="16" max="100" value= "16" id="gridRange">
+            </div>
+            <div class="lineSlider">
+                <p id="lineRangeValue">20%</p>
+                <input type="range" min="0" max="100" value= "20" id="lineRange" >
+            </div>
+        </div>
 
         </div>
+    </div>
     </div>
     <script src="script.js"></script>
 </body>
