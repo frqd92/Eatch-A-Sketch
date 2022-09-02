@@ -2,6 +2,7 @@
     margin:0;
     padding:0;
     box-sizing: border-box;
+    font-family: 'Alumni Sans Pinstripe', sans-serif;
 }
 body{
     display: flex;
@@ -15,9 +16,23 @@ body{
     writing-mode: vertical-rl;   /* To make test write vertically*/
     text-orientation:sideways;
     transform: scale(-1);
-    color: rgba(255, 106, 0, 0.642);
+    color: rgb(255, 255, 255);
+
     margin-left: -50px;
+    animation: titleGlow 2s infinite;
+    transition: ease-in-out;
+  
 }
+
+@keyframes titleGlow {
+    0%{opacity: 1; text-shadow:rgb(0, 255, 64) 3px 2px 10px;}
+    50%{opacity: 0.3; text-shadow:rgb(14, 100, 28) 3px 2px 10px;}
+    80%{ text-shadow:rgb(0, 255, 187) 3px 2px 10px;}
+    100%{opacity: 1; text-shadow:rgb(0, 255, 149) 3px 2px 10px;}
+    
+}
+
+
 
 #main-container{
     border: 1px solid white;
@@ -36,12 +51,10 @@ body{
     min-width: 600px;
     min-height: 600px;
     display: grid;
+    overflow: hidden; /* so that the div boxes in the corners dont overflow out as they don't have a border radius like the container*/
+}
 
 
-}
-.drawing-grid > div{
-    /* border:0.5px solid rgba(255, 255, 255, 0.2); */ /* not sure if should put here or in .box*/
-}
 .tool-grid,#main-container, .drawing-grid{
     border-radius: 20px 20px 20px 0px;
 }
@@ -71,7 +84,7 @@ i{
 }
 
 
-/* modal */
+/* setting container */
 
 #settings-container{
     position: fixed;
@@ -82,7 +95,6 @@ i{
     z-index: 1;
     display:none;
     background-color: rgba(0, 0, 0, 0.4);
-
 }
 
 #settings{
@@ -93,7 +105,6 @@ i{
     background-color: white;
     width: 400px;
     height: 200px;
-    border-radius: 20px;
     opacity: 80%;
     padding:20px;
     animation-name: upanddown;
@@ -102,6 +113,7 @@ i{
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    border-radius: 20px;
 }
 @keyframes upanddown {
     from{
@@ -119,6 +131,14 @@ i{
     align-self: end;
     margin-top: -10px;
     margin-right: 5px;
+}
+.warningText{
+    position: fixed;
+    top: -10%;
+    color:red;
+    text-align: center;
+    font-weight: bold;
+    font-size: 12px;
 }
 /* --Sliders--- */
 
@@ -145,7 +165,7 @@ i{
 .gridSlider{
 
 }
-#sliders p{
+#gridRangeValue, #lineRangeValue{
     padding-bottom: 5px;
     font-size: 20px;
     font-weight: bolder;
