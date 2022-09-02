@@ -4,23 +4,54 @@ let settingsContainer = document.getElementById("settings-container");
 let settingsBtn = document.querySelector(".settings");
 let settingsCloseBtn = document.getElementById("setting-close-button")
 let currentGridSize;
+let settingsWindow = document.getElementById("settings");
 window.onload=calculateGrid(50);
+
+
+
+
+function drag({movementX, movementY}){
+/* Makes the settings box draggable*/
+    let getPos = window.getComputedStyle(settingsWindow);
+
+    let leftPos = parseInt(getPos.left);
+    let topPos = parseInt(getPos.top);
+    settingsWindow .style.left = ` ${leftPos + movementX}px `
+    settingsWindow .style.top = ` ${topPos + movementY}px `
+}
+settingsWindow.addEventListener("mousedown",()=>{
+    settingsWindow.addEventListener("mousemove", drag);
+    } )
+document.addEventListener("mouseup", ()=>{
+    settingsWindow.removeEventListener("mousemove", drag);
+    })
+
 
 settingsBtn.addEventListener("click", ()=>{
     settingsContainer.style.display="block";
-})
+    gridSlider();
+    gridOpacity();
+    })
+
+    
 window.addEventListener("click", (e)=>{
     if(e.target === settingsContainer){
         settingsContainer.style.display="none";
+        settingsContainer.style.top="0";
+        settingsContainer.style.left="0";
+        settingsWindow.style.top="50%";
+        settingsWindow.style.left="50%";
+     
     }
 })
 settingsCloseBtn.addEventListener("click", ()=>{
    settingsContainer.style.display="none";
+   settingsContainer.style.top="0";
+   settingsContainer.style.left="0";
+   settingsWindow.style.top="50%";
+   settingsWindow.style.left="50%";
+
 })    
-
-
-gridSlider();
-gridOpacity();
 
 
 function calculateGrid(x){
@@ -36,7 +67,6 @@ function calculateGrid(x){
     }
     currentGridSize=x;
 }
-
 function gridSlider(){
     let gridSlider = document.getElementById("gridRange");
     let gridSliderText = document.querySelector("#gridRangeValue");
@@ -44,10 +74,10 @@ function gridSlider(){
 
     gridSlider.addEventListener("mousedown", ()=>{   /* mousemove inside mousedown so range slider value text changes as slider moves */
         gridSlider.addEventListener("mousemove", ()=>{
+        settingsWindow.removeEventListener("mousemove", drag);   /* settings window was being dragged with the slider*/
         refreshGrid()
         gridSliderText.textContent=gridSlider.value + " x " + gridSlider.value;
 
-           
         calculateGrid(gridSlider.value);
             if(gridSlider.value>=70){
                 warningText.classList.add("warningText");
@@ -59,6 +89,7 @@ function gridSlider(){
             }
         })
     })
+
 }
 
 function gridOpacity(){ 
@@ -66,6 +97,7 @@ function gridOpacity(){
     let opacitySliderText = document.getElementById("lineRangeValue");
 lineSlider.addEventListener("mousedown",()=>{
     lineSlider.addEventListener("mousemove", ()=>{
+        settingsWindow.removeEventListener("mousemove", drag); 
         let insideGrid = drawingGrid.childNodes;
         let lineSliderVal = lineSlider.value / 100;
         let lineSliderValPercent = Math.round(lineSliderVal * 100);
@@ -73,6 +105,7 @@ lineSlider.addEventListener("mousedown",()=>{
               insideGrid[z].style.border= ` 0.2px solid rgba(255, 255, 255, ${lineSliderVal}) `;
                opacitySliderText.textContent = ` ${lineSliderValPercent}% `
            }
+           
      })
 })
 
@@ -83,3 +116,9 @@ function refreshGrid(){
        drawingGrid.removeChild(drawingGrid.firstChild);
    }
 }
+
+
+
+
+
+
