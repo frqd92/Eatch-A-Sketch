@@ -3,13 +3,13 @@ let drawingGrid = document.querySelector(".drawing-grid");
 let settingsContainer = document.getElementById("settings-container");
 let settingsBtn = document.querySelector(".settings");
 let settingsCloseBtn = document.getElementById("setting-close-button")
-
+let currentGridSize;
 
 
 settingsPopup();
 calculateGrid(16);
 gridSlider();
-lineSlider();
+gridOpacity();
 
 
 function calculateGrid(x){
@@ -23,23 +23,23 @@ function calculateGrid(x){
         box.setAttribute("class", "box");
         drawingGrid.appendChild(box);
     }
+    currentGridSize=x;
+    
 }
+
+
 
 
 function settingsPopup(){
 
-
     settingsBtn.addEventListener("click", ()=>{
         settingsContainer.style.display="block";
     })
-
     window.addEventListener("click", (e)=>{
         if(e.target === settingsContainer){
             settingsContainer.style.display="none";
         }
-
     })
-
     settingsCloseBtn.addEventListener("click", ()=>{
        settingsContainer.style.display="none";
     })
@@ -52,21 +52,24 @@ function gridSlider(){
 
     gridSlider.addEventListener("click", ()=>{
         refreshGrid()
-        gridSliderText.textContent=gridSlider.value + "x" + gridSlider.value; /*  fix when sliding doesn't show right format*/
+        gridSliderText.textContent=gridSlider.value + " x " + gridSlider.value; /*  fix when sliding doesn't show right format*/
         calculateGrid(gridSlider.value);
 
     })
 
 }
 
-function lineSlider(){ /* This is where you left off.. Line slider for div boxes opacity.. should drawing grid be queryselectorAll? */
+function gridOpacity(){ 
     let lineSlider = document.getElementById("lineRange");
-
+    let opacitySliderText = document.getElementById("lineRangeValue");
     lineSlider.addEventListener("click", ()=>{
     let insideGrid = drawingGrid.childNodes;
-
-        console.log(insideGrid);
-
+    let lineSliderVal = lineSlider.value / 100;
+    let lineSliderValPercent = Math.round(lineSliderVal * 100);
+        for(let z=0;z<(currentGridSize*currentGridSize);z++){
+            insideGrid[z].style.border= ` 0.2px solid rgba(255, 255, 255, ${lineSliderVal}) `;
+            opacitySliderText.textContent = ` ${lineSliderValPercent}% `
+        }
     })
 }
 function refreshGrid(){
