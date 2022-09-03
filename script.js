@@ -8,42 +8,20 @@ let settingsWindow = document.getElementById("settings");
 let lineSlider = document.getElementById("lineRange");
 calculateGrid(50);
 
-
-
-
-settingsWindow.addEventListener("mousedown",()=>{
-    settingsWindow.addEventListener("mousemove", drag);
-    } )
-
-window.addEventListener("click", (e)=>{
-    if(e.target === settingsContainer){
+settingsBtn.addEventListener("click", ()=>{
+    settingsContainer.style.display="block";
+    gridSlider();
+    gridOpacity();
+    draggableWindow()
+  settingsCloseBtn.addEventListener("click", ()=>{
         settingsContainer.style.display="none";
         settingsContainer.style.top="0";
         settingsContainer.style.left="0";
         settingsWindow.style.top="50%";
         settingsWindow.style.left="50%";
+     })    
      
-    }
-})
-
-settingsCloseBtn.addEventListener("click", ()=>{
-   settingsContainer.style.display="none";
-   settingsContainer.style.top="0";
-   settingsContainer.style.left="0";
-   settingsWindow.style.top="50%";
-   settingsWindow.style.left="50%";
-})    
-
-document.addEventListener("mouseup", ()=>{
-    settingsWindow.removeEventListener("mousemove", drag);
-})
-
-settingsBtn.addEventListener("click", ()=>{
-    settingsContainer.style.display="block";
-    gridSlider();
-    gridOpacity();
     }) 
-
 
 function calculateGrid(x){
     refreshGrid()
@@ -68,7 +46,6 @@ function calculateGrid(x){
      }
 
     currentGridSize=x;
-
 }
 
 function gridSlider(){
@@ -93,8 +70,6 @@ function gridSlider(){
     })
 }
 
-
-
 function gridOpacity(){ 
     let lineSlider = document.getElementById("lineRange");
     let opacitySliderText = document.getElementById("lineRangeValue");
@@ -113,8 +88,6 @@ function gridOpacity(){
 
 }
 
-
-
 function refreshGrid(){
     /* everytime a new grid number was chosen it added on top of the old on so had to delete contents before every change*/
     while(drawingGrid.firstChild){
@@ -122,6 +95,26 @@ function refreshGrid(){
    }
 }
 
+function draggableWindow(){
+    settingsWindow.addEventListener("mousedown",()=>{
+        settingsWindow.addEventListener("mousemove", drag);
+        } )
+    
+    window.addEventListener("click", (e)=>{
+        if(e.target === settingsContainer){
+            settingsContainer.style.display="none";
+            settingsContainer.style.top="0";
+            settingsContainer.style.left="0";
+            settingsWindow.style.top="50%";
+            settingsWindow.style.left="50%";
+         
+        }
+    })
+    
+    document.addEventListener("mouseup", ()=>{
+        settingsWindow.removeEventListener("mousemove", drag);
+    })
+}
 
 function drag({movementX, movementY}){ /* Makes the settings box draggable*/
     let getPos = window.getComputedStyle(settingsWindow);
