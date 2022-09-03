@@ -6,6 +6,9 @@ let settingsCloseBtn = document.getElementById("setting-close-button")
 let currentGridSize;
 let settingsWindow = document.getElementById("settings");
 let lineSlider = document.getElementById("lineRange");
+calculateGrid(50);
+
+
 
 
 settingsWindow.addEventListener("mousedown",()=>{
@@ -43,6 +46,8 @@ settingsBtn.addEventListener("click", ()=>{
 
 
 function calculateGrid(x){
+    refreshGrid()
+    let lineSlider = document.getElementById("lineRange");
     let gridCalc = 600 / x ; 
     drawingGrid.style.gridTemplateColumns =`repeat(auto-fit, ${gridCalc}px)`;
     drawingGrid.style.gridTemplateRows =` repeat(auto-fit, ${gridCalc}px) `;
@@ -53,6 +58,15 @@ function calculateGrid(x){
         box.setAttribute("class", "box");
         drawingGrid.appendChild(box);
     }
+    let boxes = document.querySelectorAll(".box");
+    let gridSlider = document.getElementById("gridRange");
+  
+
+    for(let z=0;z<(x*x);z++){
+
+        boxes[z].style.border= ` 1px solid rgba(255, 255, 255, ${lineSlider.value/100}) `;
+     }
+
     currentGridSize=x;
 
 }
@@ -63,7 +77,6 @@ function gridSlider(){
     let warningText = document.getElementById("warning-msg");
     gridSlider.addEventListener("mousedown", ()=>{   /* mousemove inside mousedown so range slider value text changes as slider moves */
         gridSlider.addEventListener("mousemove", ()=>{
-        refreshGrid()
         settingsWindow.removeEventListener("mousemove", drag);   /* settings window was being dragged with the slider*/
 
         gridSliderText.textContent=gridSlider.value + " x " + gridSlider.value;
@@ -77,14 +90,6 @@ function gridSlider(){
                 warningText.textContent ="";
             }
         })
-    })
-    gridSlider.addEventListener("mouseleave", ()=>{
-        console.log("mouseleave");
-
-        let lineSlider = document.getElementById("lineRange");
-        console.log("linerangevalue at grid " + lineSlider.value);
-        
-        ///////////////
     })
 }
 
@@ -120,12 +125,9 @@ function refreshGrid(){
 
 function drag({movementX, movementY}){ /* Makes the settings box draggable*/
     let getPos = window.getComputedStyle(settingsWindow);
-
     let leftPos = parseInt(getPos.left);
     let topPos = parseInt(getPos.top);
     settingsWindow .style.left = ` ${leftPos + movementX}px `
     settingsWindow .style.top = ` ${topPos + movementY}px `
 }
-
-
 
