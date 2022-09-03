@@ -89,19 +89,24 @@ function gridSlider(){
     let gridSliderText = document.querySelector("#gridRangeValue");
     let warningText = document.getElementById("warning-msg");
     gridSlider.addEventListener("mousedown", ()=>{   /* mousemove inside mousedown so range slider value text changes as slider moves */
-        gridSlider.addEventListener("mousemove", ()=>{
-        settingsWindow.removeEventListener("mousemove", drag);   /* settings window was being dragged with the slider*/
+        gridSlider.addEventListener("mousemove", testings );
+        function testings(){
+            settingsWindow.removeEventListener("mousemove", drag);   /* settings window was being dragged with the slider*/
 
-        gridSliderText.textContent=gridSlider.value + " x " + gridSlider.value;
+            gridSliderText.textContent=gridSlider.value + " x " + gridSlider.value;
+    
+            calculateGrid(gridSlider.value);
+                if(gridSlider.value>=70){
+                    warningText.classList.add("warningText");
+                    warningText.innerText = "Going above 70x70 might slow down your browser!";  
+                }
+                else{
+                    warningText.textContent ="";
+                }
+        }
 
-        calculateGrid(gridSlider.value);
-            if(gridSlider.value>=70){
-                warningText.classList.add("warningText");
-                warningText.innerText = "Going above 70x70 might slow down your browser!";  
-            }
-            else{
-                warningText.textContent ="";
-            }
+        gridSlider.addEventListener("mouseup", ()=>{ /* the fix to the problem lol*/
+            gridSlider.removeEventListener("mousemove", testings) 
         })
     })
 }
