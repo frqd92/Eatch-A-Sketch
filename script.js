@@ -4,14 +4,14 @@ let settingsContainer = document.getElementById("settings-container");
 let settingsBtn = document.querySelector(".settings");
 let settingsCloseBtn = document.getElementById("setting-close-button")
 let currentGridSize;
+console.log("grid size outside :" + currentGridSize);
 let settingsWindow = document.getElementById("settings");
 window.onload=calculateGrid(50);
+let lineSlider = document.getElementById("lineRange");
 
 
 
-
-function drag({movementX, movementY}){
-/* Makes the settings box draggable*/
+function drag({movementX, movementY}){ /* Makes the settings box draggable*/
     let getPos = window.getComputedStyle(settingsWindow);
 
     let leftPos = parseInt(getPos.left);
@@ -66,6 +66,7 @@ function calculateGrid(x){
         drawingGrid.appendChild(box);
     }
     currentGridSize=x;
+    console.log("grid size calculategrid :" + currentGridSize);
 }
 function gridSlider(){
     let gridSlider = document.getElementById("gridRange");
@@ -74,30 +75,31 @@ function gridSlider(){
 
     gridSlider.addEventListener("mousedown", ()=>{   /* mousemove inside mousedown so range slider value text changes as slider moves */
         gridSlider.addEventListener("mousemove", ()=>{
-        settingsWindow.removeEventListener("mousemove", drag);   /* settings window was being dragged with the slider*/
         refreshGrid()
+
+        settingsWindow.removeEventListener("mousemove", drag);   /* settings window was being dragged with the slider*/
+     
+   
         gridSliderText.textContent=gridSlider.value + " x " + gridSlider.value;
 
         calculateGrid(gridSlider.value);
             if(gridSlider.value>=70){
                 warningText.classList.add("warningText");
-                warningText.innerText = "Going above 70x70 might slow down your browser!";
- 
+                warningText.innerText = "Going above 70x70 might slow down your browser!";  
             }
             else{
                 warningText.textContent ="";
             }
         })
     })
-
 }
 
 function gridOpacity(){ 
     let lineSlider = document.getElementById("lineRange");
     let opacitySliderText = document.getElementById("lineRangeValue");
-lineSlider.addEventListener("mousedown",()=>{
+    lineSlider.addEventListener("mousedown",()=>{
     lineSlider.addEventListener("mousemove", ()=>{
-        settingsWindow.removeEventListener("mousemove", drag); 
+        settingsWindow.removeEventListener("mousemove", drag);
         let insideGrid = drawingGrid.childNodes;
         let lineSliderVal = lineSlider.value / 100;
         let lineSliderValPercent = Math.round(lineSliderVal * 100);
@@ -105,11 +107,33 @@ lineSlider.addEventListener("mousedown",()=>{
               insideGrid[z].style.border= ` 0.2px solid rgba(255, 255, 255, ${lineSliderVal}) `;
                opacitySliderText.textContent = ` ${lineSliderValPercent}% `
            }
-           
      })
 })
 
 }
+
+
+
+
+function gridOpacityy(x){ 
+    let lineSlider = document.getElementById("lineRange");
+    let opacitySliderText = document.getElementById("lineRangeValue");
+    lineSlider.addEventListener("mousedown",()=>{
+    lineSlider.addEventListener("mousemove", ()=>{
+        settingsWindow.removeEventListener("mousemove", drag);
+        let insideGrid = drawingGrid.childNodes;
+        let lineSliderVal = lineSlider.value / 100;
+        let lineSliderValPercent = Math.round(lineSliderVal * 100);
+            for(let z=0;z<(x*x);z++){
+              insideGrid[z].style.border= ` 0.2px solid rgba(255, 255, 255, ${lineSliderVal}) `;
+               opacitySliderText.textContent = ` ${lineSliderValPercent}% `
+           }
+       
+     })
+})
+}
+
+
 function refreshGrid(){
     /* everytime a new grid number was chosen it added on top of the old on so had to delete contents before every change*/
     while(drawingGrid.firstChild){

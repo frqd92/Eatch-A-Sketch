@@ -44,7 +44,7 @@ body{
     display:flex;
     justify-content: center;
     align-items: center;
-    background: rgba(102, 58, 0, 0.142);
+    background: rgba(134, 123, 107, 0.142);
 }
 .drawing-grid{
     border:0.5px solid white;
@@ -53,7 +53,8 @@ body{
     min-width: 600px;
     min-height: 600px;
     display: grid;
-    overflow: hidden; /* so that the div boxes in the corners dont overflow out as they don't have a border radius like the container*/
+    -moz-overflow:hidden; /*so that the div boxes in the corners don't overflow out as they don't have a border radius like the container */
+
 }
 
 
@@ -70,9 +71,6 @@ body{
         align-items: center;
 }
 
-.box{
-    border:0.2px solid rgba(255, 255, 255, 0.2);
-}
 
 i{
     color:rgba(241, 237, 232, 0.642);
@@ -85,6 +83,9 @@ i{
     background: none;
 }
 
+.box{
+    border:0.2px solid rgba(255, 255, 255, 0.2);
+}
 
 /* setting container */
 
@@ -143,8 +144,10 @@ i{
     top: -10%;
     color:red;
     text-align: center;
-    font-weight: bold;
+    font-weight: bolder;
     font-size: 12px;
+    cursor: default;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
 }
 /* --Sliders--- */
 
@@ -167,9 +170,10 @@ i{
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-.gridSlider{
 
+}
+#gridRange, #lineRange{
+    width: 300px;
 }
 #gridRangeValue, #lineRangeValue{
     padding-bottom: 5px;
@@ -178,11 +182,14 @@ i{
 
 }
 
-input[type="range"]::-webkit-slider-thumb{
+::-webkit-slider-thumb{
     -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
     width: 30px;
+
     height:30px;
-   
+   cursor: pointer;
 }
 input[type="range"]::-webkit-slider-thumb:hover{
     background: black;
@@ -192,6 +199,4 @@ input[type="range"]{
     outline:none;
     width:100%;
     height:1px;
-    border: none;
-
 }
