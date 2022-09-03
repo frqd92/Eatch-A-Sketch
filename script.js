@@ -1,4 +1,5 @@
 let drawingGrid = document.querySelector(".drawing-grid"); 
+let paintBtn = document.querySelector(".paint");
 
 let settingsContainer = document.getElementById("settings-container");
 let settingsBtn = document.querySelector(".settings");
@@ -6,8 +7,47 @@ let settingsCloseBtn = document.getElementById("setting-close-button")
 let currentGridSize;
 let settingsWindow = document.getElementById("settings");
 let lineSlider = document.getElementById("lineRange");
-calculateGrid(50);
+calculateGrid(20);
+let btnSwitch=0;
 
+
+paintBtn.addEventListener("click", ()=>{
+    let boxes = drawingGrid.childNodes;
+    if (btnSwitch===0){
+        paintBtn.classList.add("activePaintBtn");
+        btnSwitch=1;
+
+        for (let z = 0; z<(currentGridSize*currentGridSize);z++){
+            boxes[z].addEventListener("mousemove", (e)=>{
+                e.target.style.background="blue";
+            })
+        }
+        console.log(btnSwitch);
+    }
+     
+    else if (btnSwitch ===1) {
+        paintBtn.classList.remove("activePaintBtn");
+        for (let z = 0; z<(currentGridSize*currentGridSize);z++){
+            boxes[z].addEventListener("mousemove", (e)=>{
+                e.target.style.background="e"; /* This is where you left off. Need to make it inactive and not erase*/
+            })
+        }
+
+        btnSwitch=0;
+         console.log(btnSwitch);
+      }
+});
+
+
+
+  
+
+
+    // paintBtn.addEventListener("click", ()=>{
+    //     paintBtn.removeEventListener("click", hoverMode);
+    // })
+
+/* Grid Calculations and Settings Button */
 settingsBtn.addEventListener("click", ()=>{
     settingsContainer.style.display="block";
     gridSlider();
@@ -37,14 +77,10 @@ function calculateGrid(x){
         drawingGrid.appendChild(box);
     }
     let boxes = document.querySelectorAll(".box");
-    let gridSlider = document.getElementById("gridRange");
-  
-
     for(let z=0;z<(x*x);z++){
 
-        boxes[z].style.border= ` 1px solid rgba(255, 255, 255, ${lineSlider.value/100}) `;
+        boxes[z].style.border= ` 0.2px solid rgba(255, 255, 255, ${lineSlider.value/100}) `;
      }
-
     currentGridSize=x;
 }
 
