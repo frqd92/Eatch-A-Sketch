@@ -57,7 +57,6 @@ body{
 
 }
 
-
 .tool-grid{
         border:0.1px dotted rgb(237, 220, 220);
         width:80px;
@@ -67,7 +66,6 @@ body{
         justify-content: space-evenly;
         align-items: center;
 }
-
 
 i{
     color:rgba(241, 237, 232, 0.642);

@@ -13,52 +13,50 @@ let btnSwitch=0;
 let eraserSwitch=0;
 let gridNodes = drawingGrid.childNodes;
 
-/* color palette */
+
 
 //<button class="btn colorPicker"><input type="color" id="colorPalette" value="#aaf6ad"></button>
 let colorBtn = document.querySelector(".colorPicker");
+
+
+//test..
+
+
+paintBtn.addEventListener("click",paintBtnn);
+
+function paintBtnn(){  
+    let colorPalette = document.getElementById("colorPalette");
+    let palletteVal = colorPalette.value; 
+
+        paintBtn.removeEventListener("click",paintBtnn);
+        paintBtn.classList.add("activePaintBtn");  
+
+        drawingGrid.addEventListener("mouseover",drawMode);
+            function drawMode (e){
+                if(e.target.className === 'box') {
+                    e.target.style.background=palletteVal;
+
+                }
+            }
+            paintBtn.addEventListener("click", noDraw);
+            function noDraw(){
+                paintBtn.classList.remove("activePaintBtn");  
+                paintBtn.addEventListener("click",paintBtnn);
+                drawingGrid.removeEventListener("mouseover",drawMode);
+            }
+
+}
+
+
 
 
 
 
 
 /* paint, eraser and refresh buttons*/
-paintBtn.addEventListener("click",paintBtns);
+//paintBtn.addEventListener("click",paintBtns);
 
-function paintBtns(){   
-    let colorPalette = document.getElementById("colorPalette");
-    let palletteVal = colorPalette.value; 
-    
-    if(paintBtn.classList.length===2){              //if paint button doesn't have the glow effect class it means it's off and
-        btnSwitch=1;                                //  on click should be changed to btnSwitch= 1 to indicated active state
-    }
-    else if (paintBtn.classList.length===3){
-        btnSwitch=0;
-    }
-    if(btnSwitch===1){ 
-        eraserBtn.classList.remove("activePaintBtn");   //removes glow effect from eraser button if paint button is clicked
-        paintBtn.classList.add("activePaintBtn");       //this just adds a glow effect to button when it's active 
 
-        for (let z=0; z<(currentGridSize*currentGridSize);z++){           //this works, when hovering on a box it successfully changes it's color
-            gridNodes[z].addEventListener("mouseover", colorGrid);
-            function colorGrid(e){
-                e.target.style.background=palletteVal;
-                console.log("on" + e);                                  // this is the problem, even if btnswitch=0 this is always logging
-            }
-        }
-    }
-    if(btnSwitch===0){ 
-        paintBtn.classList.remove("activePaintBtn");                    
-    
-        for (let z=0; z<(currentGridSize*currentGridSize);z++){         
-            gridNodes[z].removeEventListener("mouseover", colorGrid);           // doesn't work
-
-            gridNodes[z].addEventListener("mouseover", (e)=>{                   
-                console.log("off" + e);                                     //also always logs, even if btn is active
-            });
-        }
-    }   
-}
 
 
 
