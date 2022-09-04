@@ -1,54 +1,107 @@
 let drawingGrid = document.querySelector(".drawing-grid"); 
 let paintBtn = document.querySelector(".paint");
-
+let clearBtn = document.querySelector(".clearAll");
+let eraserBtn = document.querySelector(".eraser");
 let settingsContainer = document.getElementById("settings-container");
 let settingsBtn = document.querySelector(".settings");
 let settingsCloseBtn = document.getElementById("setting-close-button")
 let currentGridSize;
 let settingsWindow = document.getElementById("settings");
 let lineSlider = document.getElementById("lineRange");
-calculateGrid(20);
+calculateGrid(50);
 let btnSwitch=0;
+let eraserSwitch=0;
+let gridNodes = drawingGrid.childNodes;
+
+/* color palette */
+
+//<button class="btn colorPicker"><input type="color" id="colorPalette" value="#aaf6ad"></button>
+let colorBtn = document.querySelector(".colorPicker");
 
 
-paintBtn.addEventListener("click", ()=>{
-    let boxes = drawingGrid.childNodes;
-    if (btnSwitch===0){
-        paintBtn.classList.add("activePaintBtn");
-        btnSwitch=1;
 
-        for (let z = 0; z<(currentGridSize*currentGridSize);z++){
-            boxes[z].addEventListener("mousemove", (e)=>{
-                e.target.style.background="blue";
-            })
-        }
-        console.log(btnSwitch);
+
+
+/* paint, eraser and refresh buttons*/
+paintBtn.addEventListener("click",paintBtns);
+
+function paintBtns(){   
+    let colorPalette = document.getElementById("colorPalette");
+    let palletteVal = colorPalette.value; 
+    
+    if(paintBtn.classList.length===2){              //if paint button doesn't have the glow effect class it means it's off and
+        btnSwitch=1;                                //  on click should be changed to btnSwitch= 1 to indicated active state
     }
-     
-    else if (btnSwitch ===1) {
-        paintBtn.classList.remove("activePaintBtn");
-        for (let z = 0; z<(currentGridSize*currentGridSize);z++){
-            boxes[z].addEventListener("mousemove", (e)=>{
-                e.target.style.background="e"; /* This is where you left off. Need to make it inactive and not erase*/
-            })
-        }
-
+    else if (paintBtn.classList.length===3){
         btnSwitch=0;
-         console.log(btnSwitch);
-      }
+    }
+    if(btnSwitch===1){ 
+        eraserBtn.classList.remove("activePaintBtn");   //removes glow effect from eraser button if paint button is clicked
+        paintBtn.classList.add("activePaintBtn");       //this just adds a glow effect to button when it's active 
+
+        for (let z=0; z<(currentGridSize*currentGridSize);z++){           //this works, when hovering on a box it successfully changes it's color
+            gridNodes[z].addEventListener("mouseover", colorGrid);
+            function colorGrid(e){
+                e.target.style.background=palletteVal;
+                console.log("on" + e);                                  // this is the problem, even if btnswitch=0 this is always logging
+            }
+        }
+    }
+    if(btnSwitch===0){ 
+        paintBtn.classList.remove("activePaintBtn");                    
+    
+        for (let z=0; z<(currentGridSize*currentGridSize);z++){         
+            gridNodes[z].removeEventListener("mouseover", colorGrid);           // doesn't work
+
+            gridNodes[z].addEventListener("mouseover", (e)=>{                   
+                console.log("off" + e);                                     //also always logs, even if btn is active
+            });
+        }
+    }   
+}
+
+
+
+eraserBtn.addEventListener("click", ()=>{
+    if(eraserBtn.classList.length===2){
+        eraserSwitch=1;
+    }
+    else if (eraserBtn.classList.length===3){
+        eraserSwitch=0;
+    }
+    if(eraserSwitch===1){
+        paintBtn.classList.remove("activePaintBtn");
+        eraserBtn.classList.add("activePaintBtn");
+        for (let z=0; z<(currentGridSize*currentGridSize);z++){
+            gridNodes[z].addEventListener("mouseover", colorGrid);
+            function colorGrid(e){
+                e.target.style.background="";
+            }
+        }
+    }    
+    else if(eraserSwitch===0){
+        eraserBtn.classList.remove("activePaintBtn");
+    }
+
+})
+
+clearBtn.addEventListener("click", ()=>{
+    btnSwitch=0;
+    paintBtn.classList.remove("activePaintBtn");
+    eraserSwitch=0;
+    eraserBtn.classList.remove("activePaintBtn");
+    refreshGrid()
+    calculateGrid(currentGridSize);
 });
 
 
 
-  
 
 
-    // paintBtn.addEventListener("click", ()=>{
-    //     paintBtn.removeEventListener("click", hoverMode);
-    // })
 
 /* Grid Calculations and Settings Button */
 settingsBtn.addEventListener("click", ()=>{
+
     settingsContainer.style.display="block";
     gridSlider();
     gridOpacity();
@@ -92,7 +145,6 @@ function gridSlider(){
         gridSlider.addEventListener("mousemove", testings );
         function testings(){
             settingsWindow.removeEventListener("mousemove", drag);   /* settings window was being dragged with the slider*/
-
             gridSliderText.textContent=gridSlider.value + " x " + gridSlider.value;
     
             calculateGrid(gridSlider.value);
@@ -103,6 +155,10 @@ function gridSlider(){
                 else{
                     warningText.textContent ="";
                 }
+                btnSwitch=0;
+                paintBtn.classList.remove("activePaintBtn");
+                eraserSwitch=0;
+                eraserBtn.classList.remove("activePaintBtn");
         }
 
         gridSlider.addEventListener("mouseup", ()=>{ /* the fix to the problem lol*/
