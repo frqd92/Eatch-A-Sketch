@@ -15,79 +15,86 @@ let gridNodes = drawingGrid.childNodes;
 
 
 
-//<button class="btn colorPicker"><input type="color" id="colorPalette" value="#aaf6ad"></button>
 let colorBtn = document.querySelector(".colorPicker");
 
 
-//test..
 
 
 paintBtn.addEventListener("click",paintBtnn);
 
 function paintBtnn(){  
     let colorPalette = document.getElementById("colorPalette");
-    let palletteVal = colorPalette.value; 
+    
+    paintBtn.classList.add("activePaintBtn");              //add glow effect
+    drawingGrid.addEventListener("mouseover",drawMode); //click once, draw mode
+    paintBtn.removeEventListener("click",paintBtnn);
 
-        paintBtn.removeEventListener("click",paintBtnn);
-        paintBtn.classList.add("activePaintBtn");  
+    paintBtn.addEventListener("click", noDraw);          //click again, no draw
 
-        drawingGrid.addEventListener("mouseover",drawMode);
-            function drawMode (e){
-                if(e.target.className === 'box') {
-                    e.target.style.background=palletteVal;
 
-                }
+    //draw function
+    function drawMode (e){
+        if(e.target.className === 'box') {
+            console.log("draw mode");
+            let palletteVal = colorPalette.value; 
+            e.target.style.background=palletteVal;
             }
-            paintBtn.addEventListener("click", noDraw);
-            function noDraw(){
-                paintBtn.classList.remove("activePaintBtn");  
-                paintBtn.addEventListener("click",paintBtnn);
-                drawingGrid.removeEventListener("mouseover",drawMode);
-            }
-
-}
-
-
-
+        
+        }
+    //no draw function
+    function noDraw(){
+        console.log("no draw mode");
+        paintBtn.addEventListener("click",paintBtnn);
+        paintBtn.classList.remove("activePaintBtn");  
+        drawingGrid.removeEventListener("mouseover", drawMode);
+            }           
+    }
 
 
 
 
 /* paint, eraser and refresh buttons*/
-//paintBtn.addEventListener("click",paintBtns);
 
 
+eraserBtn.addEventListener("click", eraser);
+
+function eraser(){  
+
+    eraserBtn.removeEventListener("click", eraser);
+    eraserBtn.classList.add("activePaintBtn");              //add glow effect
+    drawingGrid.addEventListener("mouseover",eraseMode);
+
+    eraserBtn.addEventListener("click", noEraser);          //click again, no erase
 
 
+    //erasefunction
+    function eraseMode (e){
+        if(e.target.className === 'box') {
 
-eraserBtn.addEventListener("click", ()=>{
-    if(eraserBtn.classList.length===2){
-        eraserSwitch=1;
-    }
-    else if (eraserBtn.classList.length===3){
-        eraserSwitch=0;
-    }
-    if(eraserSwitch===1){
-        paintBtn.classList.remove("activePaintBtn");
-        eraserBtn.classList.add("activePaintBtn");
-        for (let z=0; z<(currentGridSize*currentGridSize);z++){
-            gridNodes[z].addEventListener("mouseover", colorGrid);
-            function colorGrid(e){
-                e.target.style.background="";
+            e.target.style.background="none";
             }
+            console.log(e.target.className);
         }
-    }    
-    else if(eraserSwitch===0){
+    //no erase
+    function noEraser(){
         eraserBtn.classList.remove("activePaintBtn");
+        console.log("no erase mode");
+        drawingGrid.removeEventListener("mouseover",eraseMode);
+        eraserBtn.addEventListener("click", eraser); 
+
+            }           
     }
 
-})
+
+
+
+
+
+
+
 
 clearBtn.addEventListener("click", ()=>{
-    btnSwitch=0;
-    paintBtn.classList.remove("activePaintBtn");
-    eraserSwitch=0;
-    eraserBtn.classList.remove("activePaintBtn");
+ 
     refreshGrid()
     calculateGrid(currentGridSize);
 });
@@ -139,7 +146,7 @@ function gridSlider(){
     let gridSlider = document.getElementById("gridRange");
     let gridSliderText = document.querySelector("#gridRangeValue");
     let warningText = document.getElementById("warning-msg");
-    gridSlider.addEventListener("mousedown", ()=>{   /* mousemove inside mousedown so range slider value text changes as slider moves */
+    gridSlider.addEventListener("click", ()=>{   /* mousemove inside click so range slider value text changes as slider moves */
         gridSlider.addEventListener("mousemove", testings );
         function testings(){
             settingsWindow.removeEventListener("mousemove", drag);   /* settings window was being dragged with the slider*/
@@ -188,6 +195,7 @@ function refreshGrid(){
     while(drawingGrid.firstChild){
        drawingGrid.removeChild(drawingGrid.firstChild);
    }
+
 }
 
 function draggableWindow(){
