@@ -15,27 +15,53 @@ let gridNodes = drawingGrid.childNodes;
 
 
 
+
+
+
+
+
+
+
+/* paint, eraser and refresh buttons*/
 let colorBtn = document.querySelector(".colorPicker");
 
-
-
-
 paintBtn.addEventListener("click",paintBtnn);
-
 function paintBtnn(){  
-    let colorPalette = document.getElementById("colorPalette");
-    
+    console.log(eraserBtn.classList.length);
+    if(eraserBtn.classList.length === 3){           //in case erase button is on when paint btn is pressed
+        drawingGrid.removeEventListener("mouseover",eraseMode);
+        eraserBtn.classList.remove("activePaintBtn");
+        eraserBtn.addEventListener("click", eraser);
+    }
     paintBtn.classList.add("activePaintBtn");              //add glow effect
     drawingGrid.addEventListener("mouseover",drawMode); //click once, draw mode
     paintBtn.removeEventListener("click",paintBtnn);
+    paintBtn.addEventListener("click", noDraw);          //click again, no draw   
+    }
 
-    paintBtn.addEventListener("click", noDraw);          //click again, no draw
+
+eraserBtn.addEventListener("click", eraser);
+
+function eraser(){  
+    if(paintBtn.classList.length === 3){
+        drawingGrid.removeEventListener("mouseover",drawMode); 
+        paintBtn.classList.remove("activePaintBtn");
+        paintBtn.addEventListener("click",paintBtnn);
+ 
+    }
+    eraserBtn.removeEventListener("click", eraser);
+    eraserBtn.classList.add("activePaintBtn");              //add glow effect
+    drawingGrid.addEventListener("mouseover",eraseMode);
+    eraserBtn.addEventListener("click", noEraser);          //click again, no erase
+
+       
+    }
 
 
     //draw function
     function drawMode (e){
+        let colorPalette = document.getElementById("colorPalette");
         if(e.target.className === 'box') {
-            console.log("draw mode");
             let palletteVal = colorPalette.value; 
             e.target.style.background=palletteVal;
             }
@@ -43,28 +69,10 @@ function paintBtnn(){
         }
     //no draw function
     function noDraw(){
-        console.log("no draw mode");
         paintBtn.addEventListener("click",paintBtnn);
         paintBtn.classList.remove("activePaintBtn");  
         drawingGrid.removeEventListener("mouseover", drawMode);
-            }           
-    }
-
-
-
-
-/* paint, eraser and refresh buttons*/
-
-
-eraserBtn.addEventListener("click", eraser);
-
-function eraser(){  
-
-    eraserBtn.removeEventListener("click", eraser);
-    eraserBtn.classList.add("activePaintBtn");              //add glow effect
-    drawingGrid.addEventListener("mouseover",eraseMode);
-
-    eraserBtn.addEventListener("click", noEraser);          //click again, no erase
+            }  
 
 
     //erasefunction
@@ -73,35 +81,20 @@ function eraser(){
 
             e.target.style.background="none";
             }
-            console.log(e.target.className);
         }
     //no erase
     function noEraser(){
         eraserBtn.classList.remove("activePaintBtn");
-        console.log("no erase mode");
         drawingGrid.removeEventListener("mouseover",eraseMode);
         eraserBtn.addEventListener("click", eraser); 
 
-            }           
-    }
+            }    
 
-
-
-
-
-
-
-
-
-clearBtn.addEventListener("click", ()=>{
- 
-    refreshGrid()
-    calculateGrid(currentGridSize);
-});
-
-
-
-
+    //clear btn
+    clearBtn.addEventListener("click", ()=>{
+        refreshGrid()
+        calculateGrid(currentGridSize);
+        });
 
 
 /* Grid Calculations and Settings Button */
