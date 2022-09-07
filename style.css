@@ -316,10 +316,19 @@ input[type="range"]{
     border: none;
     display: none;
 }
-.darken input[type="checkbox"]:checked, .lighten input[type="checkbox"]:checked, .randomColors input[type="checkbox"]:checked{
+.darken input[type="checkbox"]:checked, .lighten input[type="checkbox"]:checked{
     background-color: rgb(46, 98, 72);
 
+}.randomColors input[type="checkbox"]:checked{
+    background: rgb(0,0,0);
+    background: linear-gradient(90deg, rgba(0,0,0,1) 0%,
+    rgba(99,126,166,1) 12%, rgba(136,40,53,1) 37%, 
+    rgba(9,10,121,0.953810623556582) 50%, 
+    rgba(191,141,13,1) 79%, rgba(5,255,0,1) 100%);
+
 }
+
+
 
 @keyframes checkboxglow {
     0%{opacity: 1; }
@@ -331,9 +340,19 @@ display: block;
 animation: checkboxglow 1s infinite;
 transition: ease-in-out;
 }
-.darken input[type="checkbox"]:hover, .lighten input[type="checkbox"]:hover, .randomColors input[type="checkbox"]:hover{
+.darken input[type="checkbox"]:hover, .lighten input[type="checkbox"]:hover{
     background-color: rgb(74, 69, 69);
 
+}
+
+.randomColors input[type="checkbox"]:hover{
+    opacity: 0.7;
+    background: rgb(2,0,36);
+    background: 
+    linear-gradient(90deg, rgba(2,0,36,1) 0%, 
+    rgba(250,24,24,1) 12%,
+    rgba(9,10,121,0.953810623556582) 50%,
+    rgba(5,255,0,1) 100%);
 }
 
 .darken label, .lighten label{
@@ -347,7 +366,7 @@ transition: ease-in-out;
 }
 
 .acidCheckBoxText{
-
+    text-align: left;
     font-size: 18px;
 
   ;
