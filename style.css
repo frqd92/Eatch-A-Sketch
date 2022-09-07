@@ -285,7 +285,7 @@ input[type="range"]{
 
 }
 
-.lighten, .darken {
+.lighten, .darken, .randomColors {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -294,7 +294,7 @@ input[type="range"]{
     width: 70px;
 }
 
-.darken input[type="checkbox"], .lighten input[type="checkbox"]{
+.darken input[type="checkbox"], .lighten input[type="checkbox"],.randomColors input[type="checkbox"]{
     -webkit-appearance: none;
     appearance: none;
     outline: none;
@@ -307,7 +307,7 @@ input[type="range"]{
     align-items: center;
     cursor: pointer;
 }
-.darken input[type="checkbox"]:after, .lighten input[type="checkbox"]:after{
+.darken input[type="checkbox"]:after, .lighten input[type="checkbox"]:after, .randomColors input[type="checkbox"]:after{
     content: "\f111";
     font-family: "Font Awesome 6 Free";
     background-color: black;
@@ -316,7 +316,7 @@ input[type="range"]{
     border: none;
     display: none;
 }
-.darken input[type="checkbox"]:checked, .lighten input[type="checkbox"]:checked{
+.darken input[type="checkbox"]:checked, .lighten input[type="checkbox"]:checked, .randomColors input[type="checkbox"]:checked{
     background-color: rgb(46, 98, 72);
 
 }
@@ -326,17 +326,17 @@ input[type="range"]{
     50%{opacity: 0.5;}
     100%{opacity: 1;}
 }
-.darken input[type="checkbox"]:checked:after, .lighten input[type="checkbox"]:checked:after{
+.darken input[type="checkbox"]:checked:after, .lighten input[type="checkbox"]:checked:after, .randomColors input[type="checkbox"]:checked:after{
 display: block;
 animation: checkboxglow 1s infinite;
 transition: ease-in-out;
 }
-.darken input[type="checkbox"]:hover, .lighten input[type="checkbox"]:hover{
+.darken input[type="checkbox"]:hover, .lighten input[type="checkbox"]:hover, .randomColors input[type="checkbox"]:hover{
     background-color: rgb(74, 69, 69);
 
 }
 
-label{
+.darken label, .lighten label{
     font-size: 20px;
 }
 
@@ -344,4 +344,11 @@ label{
     color: white;
     font-size:15px;
     line-height: 0.8rem;
+}
+
+.acidCheckBoxText{
+
+    font-size: 18px;
+
+  ;
 }

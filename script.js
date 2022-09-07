@@ -12,28 +12,39 @@ calculateGrid(50);
 let gridNodes = drawingGrid.childNodes;
 let clickOrHover = document.querySelector(".paintModeBtn");
 let clickHover = 0;
-
+console.log(clickHover);
 
 // click N drag or hover mode
 
-
 clickOrHover.addEventListener("click", clickHoverFunc);
 
-function clickHoverFunc(){
+function clickHoverFunc(){ //hover Mode
     clickHover=1;
+
+    if(paintBtn.classList.length===3 || eraserBtn.classList.length === 3){
+        drawingGrid.removeEventListener("mouseover",drawMode); 
+        drawingGrid.removeEventListener("mousedown", clickNdrag);
+        drawingGrid.addEventListener("mouseover",drawMode); 
+    }
     let clickHoverText = document.querySelector(".paintModeText");
     clickOrHover.removeEventListener("click", clickHoverFunc);
     clickHoverText.textContent="Hover";
-        clickOrHover.addEventListener("click", hoverMode);
+        clickOrHover.addEventListener("click", clickDragMode);
 
-        function hoverMode(){
-            console.log(clickHover);
-            clickOrHover.removeEventListener("click", hoverMode);
+        function clickDragMode(){ //click & drag mode
+            clickHover=0;
+            if(paintBtn.classList.length===3 || eraserBtn.classList.length === 3){
+                drawingGrid.removeEventListener("mouseover",drawMode); 
+                drawingGrid.removeEventListener("mousedown", clickNdrag);
+                drawingGrid.addEventListener("mousedown", clickNdrag);
+            }
+
+            console.log(clickHover+ "click n drag mode");
+            clickOrHover.removeEventListener("click", clickDragMode);
             clickHoverText.innerHTML=`Click<br>&<br>Drag`;
             clickOrHover.addEventListener("click", clickHoverFunc);
         }
 }
-
 
 
 /* paint, eraser and refresh buttons*/
@@ -47,27 +58,18 @@ function paintBtnn(){
         eraserBtn.addEventListener("click", eraser);
     }
     paintBtn.classList.add("activePaintBtn");              //add glow effect
-    drawingGrid.addEventListener("mouseover",drawMode); //click once, draw mode
     paintBtn.removeEventListener("click",paintBtnn);
-    paintBtn.addEventListener("click", noDraw);          //click again, no draw   
+   
+    if(clickHover===1 && paintBtn.classList.length === 3){//hover Mode
+        drawingGrid.addEventListener("mouseover",drawMode); 
+
     }
+    if(clickHover===0 && paintBtn.classList.length === 3){
+        console.log("hello");
+        drawingGrid.addEventListener("mousedown", clickNdrag);
 
-
-eraserBtn.addEventListener("click", eraser);
-
-function eraser(){  
-    if(paintBtn.classList.length === 3){
-        drawingGrid.removeEventListener("mouseover",drawMode); 
-        paintBtn.classList.remove("activePaintBtn");
-        paintBtn.addEventListener("click",paintBtnn);
- 
     }
-    eraserBtn.removeEventListener("click", eraser);
-    eraserBtn.classList.add("activePaintBtn");              //add glow effect
-    drawingGrid.addEventListener("mouseover",eraseMode);
-    eraserBtn.addEventListener("click", noEraser);          //click again, no erase
-
-       
+    paintBtn.addEventListener("click", noDraw);          //click again, no draw 
     }
 
 
@@ -85,10 +87,62 @@ function eraser(){
         paintBtn.addEventListener("click",paintBtnn);
         paintBtn.classList.remove("activePaintBtn");  
         drawingGrid.removeEventListener("mouseover", drawMode);
+        drawingGrid.removeEventListener("mousedown", clickNdrag);
             }  
 
 
+
+    function clickNdrag(){
+        drawingGrid.addEventListener("mouseover",drawMode); //click and drag mode
+        drawingGrid.addEventListener("mouseup",removeClickNDrag);
+            }
+    function removeClickNDrag(){
+        drawingGrid.removeEventListener("mouseover",drawMode);
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+eraserBtn.addEventListener("click", eraser);
+
     //erasefunction
+
+function eraser(){  
+    if(paintBtn.classList.length === 3){
+        drawingGrid.removeEventListener("mouseover",drawMode); 
+        paintBtn.classList.remove("activePaintBtn");
+        paintBtn.addEventListener("click",paintBtnn);
+ 
+    }
+    eraserBtn.removeEventListener("click", eraser);
+    eraserBtn.classList.add("activePaintBtn");              //add glow effect
+    drawingGrid.addEventListener("mouseover",eraseMode);
+    eraserBtn.addEventListener("click", noEraser);          //click again, no erase
+
+       
+    }
     function eraseMode (e){
         if(e.target.className === 'box') {
 
@@ -108,6 +162,24 @@ function eraser(){
         refreshGrid()
         calculateGrid(currentGridSize);
         });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* Grid Calculations and Settings Button */
