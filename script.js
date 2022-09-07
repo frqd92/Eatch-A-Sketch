@@ -12,20 +12,23 @@ calculateGrid(50);
 let gridNodes = drawingGrid.childNodes;
 let clickOrHover = document.querySelector(".paintModeBtn");
 let clickHover = 0;
-console.log(clickHover);
+
 
 // click N drag or hover mode
 
 clickOrHover.addEventListener("click", clickHoverFunc);
 
-function clickHoverFunc(){ //hover Mode
-    clickHover=1;
-    if(paintBtn.classList.length===3){
+function clickHoverFunc(){ 
+    clickHover=1;//hover Mode
+
+    if(paintBtn.classList.length===3){ //if while you change mode paint button is on (so it changes mode as your painting)
         drawingGrid.removeEventListener("mouseover",drawMode); 
         drawingGrid.removeEventListener("mousedown", clickNdrag);
-        drawingGrid.addEventListener("mouseover",drawMode); 
-
+        drawingGrid.removeEventListener("mousedown", drawMode);
+        drawingGrid.addEventListener("mouseover",drawModeHover); 
+        console.log("hello1");
     }
+
     if (eraserBtn.classList.length === 3){
         drawingGrid.removeEventListener("mouseover",eraseMode); 
         drawingGrid.removeEventListener("mousedown", eraseClick);
@@ -35,22 +38,24 @@ function clickHoverFunc(){ //hover Mode
     let clickHoverText = document.querySelector(".paintModeText");
     clickOrHover.removeEventListener("click", clickHoverFunc);
     clickHoverText.textContent="Hover";
-        clickOrHover.addEventListener("click", clickDragMode);
-
+    clickOrHover.addEventListener("click", clickDragMode);
+    console.log("hello2");
     function clickDragMode(){ //click & drag mode
         clickHover=0;
-        if(paintBtn.classList.length===3 || eraserBtn.classList.length === 3){
+        if(paintBtn.classList.length===3){
             drawingGrid.removeEventListener("mouseover",drawMode); 
             drawingGrid.removeEventListener("mousedown", clickNdrag);
             drawingGrid.addEventListener("mousedown", clickNdrag);
+            drawingGrid.removeEventListener("mouseover",drawModeHover); 
+            console.log("hello3");
         }
+
         if(eraserBtn.classList.length === 3){
             drawingGrid.removeEventListener("mouseover",eraseMode); 
             drawingGrid.removeEventListener("mousedown", eraseClick);
             drawingGrid.addEventListener("mousedown", eraseClick);
         }
-
-            console.log(clickHover+ "click n drag mode");
+        console.log("hello4");
             clickOrHover.removeEventListener("click", clickDragMode);
             clickHoverText.innerHTML=`Click<br>&<br>Drag`;
             clickOrHover.addEventListener("click", clickHoverFunc);
@@ -62,24 +67,28 @@ function clickHoverFunc(){ //hover Mode
 let colorBtn = document.querySelector(".colorPicker");
 
 paintBtn.addEventListener("click",paintBtnn);
+
 function paintBtnn(){  
     if(eraserBtn.classList.length === 3){           //in case erase button is on when paint btn is pressed
         drawingGrid.removeEventListener("mouseover",eraseMode);
         eraserBtn.classList.remove("activePaintBtn");
         eraserBtn.addEventListener("click", eraser);
+        console.log("hello5");
     }
     paintBtn.classList.add("activePaintBtn");              //add glow effect
     paintBtn.removeEventListener("click",paintBtnn);
    
-    if(clickHover===1 && paintBtn.classList.length === 3){//hover Mode
+    if(clickHover===1 && paintBtn.classList.length===3){//hover Mode
+        console.log("hello6");
         drawingGrid.addEventListener("mouseover",drawMode); 
 
     }
-    if(clickHover===0 && paintBtn.classList.length === 3){
-        console.log("hello");
-        drawingGrid.addEventListener("mousedown", clickNdrag);
+    if(clickHover===0 && paintBtn.classList.length===3){ //click N dragmode
+        console.log("hello7");
+        drawingGrid.addEventListener("mousedown", clickNdrag); //this is where you left off, line 75 doesn't work because of this (when you click on grid while on hover mode it makes it click n drag)
 
     }
+    console.log("hello8");
     paintBtn.addEventListener("click", noDraw);          //click again, no draw 
     }
 
@@ -95,24 +104,40 @@ function paintBtnn(){
         }
     //no draw function
     function noDraw(){
+        console.log("hello9");
         paintBtn.addEventListener("click",paintBtnn);
         paintBtn.classList.remove("activePaintBtn");  
         drawingGrid.removeEventListener("mouseover", drawMode);
+        drawingGrid.removeEventListener("mousedown", drawMode);
         drawingGrid.removeEventListener("mousedown", clickNdrag);
+        drawingGrid.removeEventListener("mouseover", drawMode);
+        drawingGrid.removeEventListener("mousedown", clickNdrag);
+        drawingGrid.removeEventListener("mouseover",drawModeHover); 
             }  
 
 
 
     function clickNdrag(){
-        drawingGrid.addEventListener("mouseover",drawMode); //click and drag mode
-        drawingGrid.addEventListener("mouseup",removeClickNDrag);
+        console.log("click N Drag");
+        if(paintBtn.classList.length === 3){
+            drawingGrid.addEventListener("mouseover",drawMode); //click and drag mode
+            drawingGrid.addEventListener("mouseup",removeClickNDrag);
+        }
+
             }
+
+    function drawModeHover(){
+        console.log("hello11");
+        drawingGrid.addEventListener("mouseover",drawMode);
+    }
     function removeClickNDrag(){
+        console.log("remove click and drag");
+        drawingGrid.addEventListener("mousedown", clickNdrag);
         drawingGrid.removeEventListener("mouseover",drawMode);
+        drawingGrid.addEventListener("mousedown", clickNdrag);
 
             }
-
-
+    
 
 
 
