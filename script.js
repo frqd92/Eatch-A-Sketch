@@ -9,16 +9,30 @@ let currentGridSize;
 let settingsWindow = document.getElementById("settings");
 let lineSlider = document.getElementById("lineRange");
 calculateGrid(50);
-let btnSwitch=0;
-let eraserSwitch=0;
 let gridNodes = drawingGrid.childNodes;
+let clickOrHover = document.querySelector(".paintModeBtn");
+let clickHover = 0;
 
 
+// click N drag or hover mode
 
 
+clickOrHover.addEventListener("click", clickHoverFunc);
 
+function clickHoverFunc(){
+    clickHover=1;
+    let clickHoverText = document.querySelector(".paintModeText");
+    clickOrHover.removeEventListener("click", clickHoverFunc);
+    clickHoverText.textContent="Hover";
+        clickOrHover.addEventListener("click", hoverMode);
 
-
+        function hoverMode(){
+            console.log(clickHover);
+            clickOrHover.removeEventListener("click", hoverMode);
+            clickHoverText.innerHTML=`Click<br>&<br>Drag`;
+            clickOrHover.addEventListener("click", clickHoverFunc);
+        }
+}
 
 
 
@@ -27,7 +41,6 @@ let colorBtn = document.querySelector(".colorPicker");
 
 paintBtn.addEventListener("click",paintBtnn);
 function paintBtnn(){  
-    console.log(eraserBtn.classList.length);
     if(eraserBtn.classList.length === 3){           //in case erase button is on when paint btn is pressed
         drawingGrid.removeEventListener("mouseover",eraseMode);
         eraserBtn.classList.remove("activePaintBtn");
@@ -153,13 +166,10 @@ function gridSlider(){
                 else{
                     warningText.textContent ="";
                 }
-                btnSwitch=0;
                 paintBtn.classList.remove("activePaintBtn");
-                eraserSwitch=0;
                 eraserBtn.classList.remove("activePaintBtn");
         }
-
-        gridSlider.addEventListener("mouseup", ()=>{ /* the fix to the problem lol*/
+            gridSlider.addEventListener("mouseup", ()=>{ /* the fix to the problem lol*/
             gridSlider.removeEventListener("mousemove", testings) 
         })
     })

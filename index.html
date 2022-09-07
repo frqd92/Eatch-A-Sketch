@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Alumni+Sans+Pinstripe&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
 
@@ -18,11 +19,25 @@
             <button class="btn paint"><i class="fa-solid fa-brush"></i></button>
             <button class="btn colorPicker"><input type="color" id="colorPalette" value="#aaf6ad"></button>
             <button class="btn eraser"><i class="fa-solid fa-eraser"></i></button>
+            <button class = "btn paintModeBtn"><p class="paintModeText">Click<br>&<br>Drag</p></button>
+                <div class="paintOptions">
+                    <div class="drawMode"> 
+                        <div class="darken">
+                            <label for="darkenCheckBox">Darken</label>
+                            <input type="checkbox" id="darkenCheckBox">
+                        </div>
+                        <div class="lighten">
+                            <label for="lightenCheckBox">Lighten</label>
+                            <input type="checkbox" id="lightenCheckBox">
+                        </div>
+                    </div>
+                </div>
+
             <button class="btn clearAll"><i class="fa-solid fa-rotate-right"></i></button>
            <button class="btn settings"><i class="fa-solid fa-bars"></i></button>
         </div>
         <div class="drawing-grid"></div>
-  
+
     </div> <!--MainContainer-->
 
 
@@ -33,15 +48,21 @@
             <div class="gridSlider">
                 <p id = "warning-msg"></p>
                 <p id="gridRangeValue">50 x 50</p>
+                <div class="SliderNText">
+                <p class = "gridLabel">Grid Size</p>
                 <input type="range" min="2" max="150" value= "50" id="gridRange">
+                </div>
             </div>
             <div class="lineSlider">
                 <p id="lineRangeValue">20%</p>
-                <input type="range" min="0" max="100" value= "20" id="lineRange" >
+                <div class="SliderNText">
+                <p class = "gridLabel">Grid Transparency</p>
+                <input type="range" min="0" max="100" value= "20" id="lineRange">
+                </div>
             </div>
         </div>
-
         </div>
+
     </div>
     </div>
     <script src="script.js"></script>

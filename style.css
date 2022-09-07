@@ -91,6 +91,22 @@ i{
 
 .box{
     border:1px solid rgba(255, 255, 255, 0.2);
+
+}
+.box:hover{
+    animation: boxHover 1s;
+    transition: ease-out;
+    box-shadow: black 0.2px 1px 3px;
+}
+
+@keyframes boxHover
+ {
+  from  {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* setting container */
@@ -138,51 +154,72 @@ i{
     border: none;
     font-size: 40px;
     align-self: end;
-    margin-top: -10px;
-    margin-right: 5px;
+    margin-top: -25px;
+    margin-right: 3px;
 }
 #setting-close-button:hover{
     color:red;
     transform: scale(1.3);
 }
 .warningText{
+
     position: fixed;
-    top: -10%;
+    top:-5%;
     color:red;
     text-align: center;
     font-weight: bolder;
     font-size: 12px;
     cursor: default;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+    opacity: 0.8;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+ 
 }
-/* --Sliders--- */
 
+
+
+/* --Sliders--- */
 #sliders{
 
     padding-bottom: 20px;
     position:absolute;
-    top: 60%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
-    opacity: 0.8;
+    opacity: 1;
     transition: opacity 0.2s;
     -webkit-transition: 0.2s;
 }
 .gridSlider, .lineSlider{
 
+   
     width:300px;
     height:60px;
     padding:10px;
     display: flex;
     flex-direction: column;
     align-items: center;
-
 }
+
+
+.SliderNText{
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 15px;
+    font-weight: bolder;
+    width:350px;
+}
+.gridLabel{
+    cursor: default;
+    width: 60px;
+}
+
 #gridRange, #lineRange{
     width: 300px;
 }
 #gridRangeValue, #lineRangeValue{
-    padding-bottom: 5px;
+
     font-size: 20px;
     font-weight: bolder;
 
@@ -229,4 +266,82 @@ input[type="range"]{
     border-radius: 30px;
     border:none;
 
+}
+
+.clickSwitch{
+    border: 1px solid black;
+    display: flex;
+}
+
+.paintOptions{
+
+    text-align: center;
+    color:white
+}
+
+.drawMode{
+    display: flex;
+    flex-direction: column;
+
+}
+
+.lighten, .darken {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:5px;
+    height:50px;
+    width: 70px;
+}
+
+.darken input[type="checkbox"], .lighten input[type="checkbox"]{
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+    height:20px;
+    width: 20px;
+    background-color: rgb(195, 192, 192);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.darken input[type="checkbox"]:after, .lighten input[type="checkbox"]:after{
+    content: "\f111";
+    font-family: "Font Awesome 6 Free";
+    background-color: black;
+    border-radius: 20px;
+    font-size: 11px;
+    border: none;
+    display: none;
+}
+.darken input[type="checkbox"]:checked, .lighten input[type="checkbox"]:checked{
+    background-color: rgb(46, 98, 72);
+
+}
+
+@keyframes checkboxglow {
+    0%{opacity: 1; }
+    50%{opacity: 0.5;}
+    100%{opacity: 1;}
+}
+.darken input[type="checkbox"]:checked:after, .lighten input[type="checkbox"]:checked:after{
+display: block;
+animation: checkboxglow 1s infinite;
+transition: ease-in-out;
+}
+.darken input[type="checkbox"]:hover, .lighten input[type="checkbox"]:hover{
+    background-color: rgb(74, 69, 69);
+
+}
+
+label{
+    font-size: 20px;
+}
+
+.paintModeText{
+    color: white;
+    font-size:15px;
+    line-height: 0.8rem;
 }
