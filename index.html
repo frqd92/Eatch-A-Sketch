@@ -20,6 +20,10 @@
             <button class="btn colorPicker" data-tooltip="Color Palette"><input type="color" id="colorPalette" value="#D1E0D2"></button>
             <div class="paintOptions">
                 <div class="drawMode"> 
+                    <div class="darken">
+                        <label for="darkenCheckBox">Shade</label>
+                        <input type="checkbox" id="darkenCheckBox">
+                    </div>
                     <div class="randomColors">
                         <p class="acidCheckBoxText">Random<br>Colors</p>
                         <input type="checkbox" id="acidCheckBox">
@@ -42,10 +46,10 @@
         <div id="sliders">
             <div class="gridSlider">
                 <p id = "warning-msg"></p>
-                <p id="gridRangeValue">70 x 70</p>
+                <p id="gridRangeValue">80 x 80</p>
                 <div class="SliderNText">
                 <p class = "gridLabel">Grid Size</p>
-                <input type="range" min="2" max="150" value= "70" id="gridRange">
+                <input type="range" min="2" max="150" value= "80" id="gridRange">
                 </div>
             </div>
             <div class="lineSlider">

@@ -93,7 +93,6 @@ i{
 .box{
     border:0.1px solid rgba(255, 255, 255, 0.2);
 
-
 }
 
 
@@ -276,7 +275,7 @@ input[type="range"]{
 
 }
 
-.randomColors {
+.darken, .randomColors {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -285,7 +284,7 @@ input[type="range"]{
     width: 70px;
 }
 
-.randomColors input[type="checkbox"]{
+.darken input[type="checkbox"], .randomColors input[type="checkbox"]{
     -webkit-appearance: none;
     appearance: none;
     outline: none;
@@ -298,7 +297,7 @@ input[type="range"]{
     align-items: center;
     cursor: pointer;
 }
-.randomColors input[type="checkbox"]:after{
+.darken input[type="checkbox"]:after, .randomColors input[type="checkbox"]:after{
     content: "\f111";
     font-family: "Font Awesome 6 Free";
     background-color: black;
@@ -306,6 +305,9 @@ input[type="range"]{
     font-size: 11px;
     border: none;
     display: none;
+}
+.darken input[type="checkbox"]:checked{
+    background-color: rgb(46, 98, 72);
 }
 .randomColors input[type="checkbox"]:checked{
     background: rgb(0,0,0);
@@ -316,18 +318,24 @@ input[type="range"]{
 
 }
 
-
 @keyframes checkboxglow {
     0%{opacity: 1; }
     50%{opacity: 0.5;}
     100%{opacity: 1;}
 }
-.randomColors input[type="checkbox"]:checked:after{
+
+.darken input[type="checkbox"]:checked:after, .randomColors input[type="checkbox"]:checked:after{
 display: block;
 animation: checkboxglow 1s infinite;
 transition: ease-in-out;
 }
 
+.darken input[type="checkbox"]:hover{
+    background-color: rgb(74, 69, 69);
+}
+.darken label{
+    font-size: 20px;
+}
 
 .randomColors input[type="checkbox"]:hover{
     opacity: 0.7;

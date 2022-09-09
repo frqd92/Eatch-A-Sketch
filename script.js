@@ -8,74 +8,14 @@ let settingsCloseBtn = document.getElementById("setting-close-button")
 let currentGridSize;
 let settingsWindow = document.getElementById("settings");
 let lineSlider = document.getElementById("lineRange");
-calculateGrid(70);
+calculateGrid(80);
 let gridNodes = drawingGrid.childNodes;
 let clickOrHover = document.querySelector(".paintModeBtn");
-let clickHover = 0, lightenB =0; randomColorB=0;
+let clickHover = 0, lightenB =0; darkenB = 0; randomColorB=0;
+let darkenBtn = document.getElementById("darkenCheckBox");
 let randomColorBtn = document.getElementById("acidCheckBox")
 let currentColor;
 
-
-
-
-
-
-
-randomColorBtn.addEventListener("click",randomColorFunc)
-function randomColorFunc(){
-
-
-    if(eraserBtn.classList.length === 3 ){
-        eraserBtn.classList.remove("activePaintBtn");
-    }
-    if (randomColorBtn.checked){
-        console.log("checked");
-        randomColorB=1;
-
-    }
-    else{
-        console.log("not checked");
-        randomColorB=0;
-    }
-}
-
-// click N drag or hover mode
-clickOrHover.addEventListener("click", clickHoverFunc);
-function clickHoverFunc(){ 
-    clickHover=1;//hover Mode
-    if(paintBtn.classList.length===3){ //if while you change mode paint button is on (so it changes mode as your painting)
-        drawingGrid.removeEventListener("mouseover",drawMode); 
-        drawingGrid.removeEventListener("mousedown", clickNdrag);
-        drawingGrid.removeEventListener("mousedown", drawMode);
-        drawingGrid.addEventListener("mouseover",drawModeHover); 
-    }
-    if (eraserBtn.classList.length === 3){
-        drawingGrid.removeEventListener("mouseover",eraseMode); 
-        drawingGrid.removeEventListener("mousedown", eraseClick);
-        drawingGrid.addEventListener("mouseover",eraseMode); 
-    }
-    let clickHoverText = document.querySelector(".paintModeText");
-    clickOrHover.removeEventListener("click", clickHoverFunc);
-    clickHoverText.textContent="Hover";
-    clickOrHover.addEventListener("click", clickDragMode);
-    function clickDragMode(){ //click & drag mode
-        clickHover=0;
-        if(paintBtn.classList.length===3){
-            drawingGrid.removeEventListener("mouseover",drawMode); 
-            drawingGrid.removeEventListener("mousedown", clickNdrag);
-            drawingGrid.addEventListener("mousedown", clickNdrag);
-            drawingGrid.removeEventListener("mouseover",drawModeHover); 
-        }
-        if(eraserBtn.classList.length === 3){
-            drawingGrid.removeEventListener("mouseover",eraseMode); 
-            drawingGrid.removeEventListener("mousedown", eraseClick);
-            drawingGrid.addEventListener("mousedown", eraseClick);
-        }
-        clickOrHover.removeEventListener("click", clickDragMode);
-        clickHoverText.innerHTML=`Click<br>&<br>Drag`;
-        clickOrHover.addEventListener("click", clickHoverFunc);
-        }
-}
 /* paint, eraser and refresh buttons*/
 let colorBtn = document.querySelector(".colorPicker");
 paintBtn.addEventListener("click",paintBtnn);
@@ -99,37 +39,60 @@ function paintBtnn(){
     paintBtn.addEventListener("click", noDraw);          //click again, no draw 
     }
 
-
-
-
-  let shadeMode = (val) => {
-    let color = `rgba(`;
-    val = parseInt(val.substr(4, val.indexOf(',') -4));
-    if(val === 255){
-       val = 100;
-    }
-    else if ( val > 0){
-        val = val - 5;
-    }
-    for (let y = 0; y<3; y++){
-        color = color + val + ",";
-    }
-    return color + `1)`;
-  }
-
 //draw function
 function drawMode (e){
     drawingGrid.addEventListener("mousedown", paintMessage);
-    //console.log(e.target.classList.length);
     let colorPalette = document.getElementById("colorPalette");
-    if(randomColorB ===0){
+    if(darkenB===0 && randomColorB ===0){
         if(e.target.className === 'box') {
             let palletteVal = colorPalette.value; 
             e.target.style.background=palletteVal;
            
         }
     }
-
+    if(darkenB===1){ 
+        let opacityVal = e.target.style.background;
+        opacityValRgb = `rgb(0,0,0)`;
+        opacityValRgba = opacityValRgb.replace('rgb', 'rgba').replace(')', ',0.0)'); //creates `rgb(0,0,0,0.0)`
+        let opacityValA = parseFloat(opacityValRgba.split(",")[3].replace(")", "")); //creates 0.0
+        
+        //I present the dumbest way possible to do the darkening thing
+        if(opacityVal.includes("rgba")=== false && e.target.classList.length === 1){
+            e.target.style.background = `rgba(0,0,0,0.1)`;
+        }
+        else if(opacityVal.includes("0.1")=== true){
+            e.target.style.background = `rgba(0,0,0,0.2)`;
+            console.log(e.target.classList.length);
+        }
+        else if(opacityVal.includes("0.2")=== true){
+            e.target.style.background = `rgba(0,0,0,0.3)`;
+        }
+        else if(opacityVal.includes("0.3")=== true){
+            e.target.style.background = `rgba(0,0,0,0.4)`;
+        }
+        else if(opacityVal.includes("0.4")=== true){
+            e.target.style.background = `rgba(0,0,0,0.5)`;
+        }
+        else if(opacityVal.includes("0.5")=== true){
+            e.target.style.background = `rgba(0,0,0,0.6)`;
+        }
+        else if(opacityVal.includes("0.6")=== true){
+            e.target.style.background = `rgba(0,0,0,0.7)`;
+        }
+        else if(opacityVal.includes("0.7")=== true){
+            e.target.style.background = `rgba(0,0,0,0.8`;
+        }
+        else if(opacityVal.includes("0.8")=== true){
+            e.target.style.background = `rgba(0,0,0,0.9)`;
+        }
+        else if(opacityVal.includes("0.9")=== true){
+            e.target.classList.add("maxed");
+            e.target.style.background = `rgba(0,0,0,1.0)`;
+        }
+        else if(opacityVal.includes("1.0")=== true){
+            e.target.style.background = `rgba(0,0,0,1.0)`;
+        }
+    }
     if(randomColorB===1){
         let randomVal = Math.floor(Math.random()*16777215).toString(16);
         e.target.style.backgroundColor=`#${randomVal}`;
@@ -167,9 +130,9 @@ function removeClickNDrag(){
 //erasefunction
 eraserBtn.addEventListener("click", eraser);
 function eraser(){  
-
+    document.getElementById("darkenCheckBox").checked = false;
     document.getElementById("acidCheckBox").checked = false;
-    randomColorB=0;
+    darkenB=0, randomColorB=0;
 
     if(paintBtn.classList.length === 3){
         drawingGrid.removeEventListener("mouseover",drawMode);
@@ -257,7 +220,7 @@ function calculateGrid(x){
     let boxes = document.querySelectorAll(".box");
     for(let z=0;z<(x*x);z++){
 
-        boxes[z].style.border= ` 0.2px solid rgba(255, 255, 255, ${lineSlider.value/100}) `;
+        boxes[z].style.border= ` 0.1px solid rgba(255, 255, 255, ${lineSlider.value/100}) `;
      }
     currentGridSize=x;
 }
@@ -299,7 +262,7 @@ function gridOpacity(){
         let lineSliderVal = lineSlider.value / 100;
         let lineSliderValPercent = Math.round(lineSliderVal * 100);
             for(let z=0;z<(currentGridSize*currentGridSize);z++){
-              insideGrid[z].style.border= ` 0.2px solid rgba(255, 255, 255, ${lineSliderVal}) `;
+              insideGrid[z].style.border= ` 0.1px solid rgba(255, 255, 255, ${lineSliderVal}) `;
                opacitySliderText.textContent = ` ${lineSliderValPercent}% `
            }
      })
@@ -311,7 +274,6 @@ function refreshGrid(){
     while(drawingGrid.firstChild){
        drawingGrid.removeChild(drawingGrid.firstChild);
    }
-
 }
 
 function draggableWindow(){
@@ -346,7 +308,7 @@ function drag({movementX, movementY}){ /* Makes the settings box draggable*/
 drawingGrid.addEventListener("mousedown", paintMessage); /* That warning message for paint button*/
 function paintMessage(){
     let paintMessageWarning = document.querySelector(".paintMsg");
-    if(paintBtn.classList.length===2 && eraserBtn.classList.length ===2){
+    if((paintBtn.classList.length===2 && eraserBtn.classList.length ===2) || eraserBtn.classList.length === 3 && darkenBtn===1 ){
         paintMessageWarning.style.display="block";
         setTimeout(()=>{
             paintMessageWarning.style.display="none";
@@ -356,4 +318,77 @@ function paintMessage(){
     else{
         drawingGrid.removeEventListener("mousedown", paintMessage);
     }
+}
+
+darkenBtn.addEventListener("click",darkenFunc);
+function darkenFunc(){
+    paintMessage()
+    if(eraserBtn.classList.length === 3 ){
+        eraserBtn.classList.remove("activePaintBtn");
+    }
+    document.getElementById("acidCheckBox").checked = false;
+    randomColorB=0;
+    if (darkenBtn.checked){
+        darkenB=1;
+
+    }
+    else{
+        darkenB=0;
+
+    }
+}
+
+
+randomColorBtn.addEventListener("click",randomColorFunc)
+function randomColorFunc(){
+    document.getElementById("darkenCheckBox").checked = false;
+    darkenB=0;
+    paintMessage()
+    if(eraserBtn.classList.length === 3 ){
+        eraserBtn.classList.remove("activePaintBtn");
+    }
+    if (randomColorBtn.checked){
+        randomColorB=1;
+
+    }
+    else{
+        randomColorB=0;
+    }
+}
+// click N drag or hover mode
+clickOrHover.addEventListener("click", clickHoverFunc);
+function clickHoverFunc(){ 
+    clickHover=1;//hover Mode
+    if(paintBtn.classList.length===3){ //if while you change mode paint button is on (so it changes mode as your painting)
+        drawingGrid.removeEventListener("mouseover",drawMode); 
+        drawingGrid.removeEventListener("mousedown", clickNdrag);
+        drawingGrid.removeEventListener("mousedown", drawMode);
+        drawingGrid.addEventListener("mouseover",drawModeHover); 
+    }
+    if (eraserBtn.classList.length === 3){
+        drawingGrid.removeEventListener("mouseover",eraseMode); 
+        drawingGrid.removeEventListener("mousedown", eraseClick);
+        drawingGrid.addEventListener("mouseover",eraseMode); 
+    }
+    let clickHoverText = document.querySelector(".paintModeText");
+    clickOrHover.removeEventListener("click", clickHoverFunc);
+    clickHoverText.textContent="Hover";
+    clickOrHover.addEventListener("click", clickDragMode);
+    function clickDragMode(){ //click & drag mode
+        clickHover=0;
+        if(paintBtn.classList.length===3){
+            drawingGrid.removeEventListener("mouseover",drawMode); 
+            drawingGrid.removeEventListener("mousedown", clickNdrag);
+            drawingGrid.addEventListener("mousedown", clickNdrag);
+            drawingGrid.removeEventListener("mouseover",drawModeHover); 
+        }
+        if(eraserBtn.classList.length === 3){
+            drawingGrid.removeEventListener("mouseover",eraseMode); 
+            drawingGrid.removeEventListener("mousedown", eraseClick);
+            drawingGrid.addEventListener("mousedown", eraseClick);
+        }
+        clickOrHover.removeEventListener("click", clickDragMode);
+        clickHoverText.innerHTML=`Click<br>&<br>Drag`;
+        clickOrHover.addEventListener("click", clickHoverFunc);
+        }
 }
