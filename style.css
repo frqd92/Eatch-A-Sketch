@@ -58,7 +58,7 @@ body{
 }
 
 .tool-grid{
-        border:0.1px dotted rgb(237, 220, 220);
+        border:0.1px dotted rgb(237, 220, 220, 0.5);
         width:80px;
         height:600px;
         display: flex;
@@ -73,6 +73,7 @@ i{
 }
 
 .btn{
+    position:relative;
     width:50px;
     height:50px;
     background: none;
@@ -90,7 +91,7 @@ i{
 }
 
 .box{
-    border:1px solid rgba(255, 255, 255, 0.2);
+    border:0.1px solid rgba(255, 255, 255, 0.2);
 
 
 }
@@ -275,7 +276,7 @@ input[type="range"]{
 
 }
 
-.darken, .randomColors {
+.randomColors {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -284,7 +285,7 @@ input[type="range"]{
     width: 70px;
 }
 
-.darken input[type="checkbox"], .randomColors input[type="checkbox"]{
+.randomColors input[type="checkbox"]{
     -webkit-appearance: none;
     appearance: none;
     outline: none;
@@ -297,7 +298,7 @@ input[type="range"]{
     align-items: center;
     cursor: pointer;
 }
-.darken input[type="checkbox"]:after, .randomColors input[type="checkbox"]:after{
+.randomColors input[type="checkbox"]:after{
     content: "\f111";
     font-family: "Font Awesome 6 Free";
     background-color: black;
@@ -306,10 +307,7 @@ input[type="range"]{
     border: none;
     display: none;
 }
-.darken input[type="checkbox"]:checked{
-    background-color: rgb(46, 98, 72);
-
-}.randomColors input[type="checkbox"]:checked{
+.randomColors input[type="checkbox"]:checked{
     background: rgb(0,0,0);
     background: linear-gradient(90deg, rgba(0,0,0,1) 0%,
     rgba(99,126,166,1) 12%, rgba(136,40,53,1) 37%, 
@@ -324,15 +322,12 @@ input[type="range"]{
     50%{opacity: 0.5;}
     100%{opacity: 1;}
 }
-.darken input[type="checkbox"]:checked:after, .randomColors input[type="checkbox"]:checked:after{
+.randomColors input[type="checkbox"]:checked:after{
 display: block;
 animation: checkboxglow 1s infinite;
 transition: ease-in-out;
 }
-.darken input[type="checkbox"]:hover{
-    background-color: rgb(74, 69, 69);
 
-}
 
 .randomColors input[type="checkbox"]:hover{
     opacity: 0.7;
@@ -344,9 +339,6 @@ transition: ease-in-out;
     rgba(5,255,0,1) 100%);
 }
 
-.darken label{
-    font-size: 20px;
-}
 
 .paintModeText{
     color: white;
@@ -361,6 +353,46 @@ transition: ease-in-out;
 
 }
 
-.boxDarken{
-    filter: brightness(1);
+
+.paint:hover::before, .colorPicker:hover::before, .eraser:hover::before, .paintModeBtn:hover::before, .clearAll:hover::before, .settings:hover::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: -0.3rem;
+    left: 50%;
+    height: 15px;
+    width: max-content;
+    background: rgb(46, 53, 48);
+    opacity: 70%;
+    transform: translateX(-50%) translateY(-100%);
+    color:white;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: 'Courier New', Courier, monospace;
+    
+}
+
+.paintMsg{
+    display: none;
+    position: absolute;
+    width:130px;
+    font-size: 10px;
+    height: 15px;
+    padding: 2px;
+    color: white;
+    background: red;
+    font-family: 'Courier New', Courier, monospace;
+    transform: translateX(-50%) translateY(-100%);
+    left: 50%;
+    top:-8px;
+    animation: paintMsgGlow 0.7s ease-in-out infinite; 
+}
+
+@keyframes paintMsgGlow {
+    from{
+        opacity:1;
+
+    }
+    to {
+        opacity:0;
+    }
 }

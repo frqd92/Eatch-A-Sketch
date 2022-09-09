@@ -8,12 +8,12 @@ let settingsCloseBtn = document.getElementById("setting-close-button")
 let currentGridSize;
 let settingsWindow = document.getElementById("settings");
 let lineSlider = document.getElementById("lineRange");
-calculateGrid(8);
+calculateGrid(100);
 let gridNodes = drawingGrid.childNodes;
 let clickOrHover = document.querySelector(".paintModeBtn");
-let clickHover = 0, darkenB =0, lightenB =0; randomColorB=0;
-let darkenBtn = document.getElementById("darkenCheckBox");
+let clickHover = 0, lightenB =0; randomColorB=0;
 let randomColorBtn = document.getElementById("acidCheckBox")
+let currentColor;
 
 
 
@@ -21,32 +21,10 @@ let randomColorBtn = document.getElementById("acidCheckBox")
 
 
 
-
-
-
-
-darkenBtn.addEventListener("click",darkenFunc);
-function darkenFunc(){
-    if(eraserBtn.classList.length === 3 ){
-        eraserBtn.classList.remove("activePaintBtn");
-    }
-    document.getElementById("acidCheckBox").checked = false;
-    randomColorB=0;
-    if (darkenBtn.checked){
-        console.log("checked");
-        darkenB=1;
-
-    }
-    else{
-        console.log("not checked");
-        darkenB=0;
-
-    }
-}
 randomColorBtn.addEventListener("click",randomColorFunc)
 function randomColorFunc(){
-    document.getElementById("darkenCheckBox").checked = false;
-    darkenB=0;
+
+
     if(eraserBtn.classList.length === 3 ){
         eraserBtn.classList.remove("activePaintBtn");
     }
@@ -102,6 +80,7 @@ function clickHoverFunc(){
 let colorBtn = document.querySelector(".colorPicker");
 paintBtn.addEventListener("click",paintBtnn);
 function paintBtnn(){  
+    drawingGrid.removeEventListener("mousedown", paintMessage);
     if(eraserBtn.classList.length === 3){           //in case erase button is on when paint btn is pressed
         drawingGrid.removeEventListener("mouseover",eraseMode);
         drawingGrid.removeEventListener("mousedown", eraseClick);
@@ -119,6 +98,10 @@ function paintBtnn(){
     }
     paintBtn.addEventListener("click", noDraw);          //click again, no draw 
     }
+
+
+
+
   let shadeMode = (val) => {
     let color = `rgba(`;
     val = parseInt(val.substr(4, val.indexOf(',') -4));
@@ -126,7 +109,7 @@ function paintBtnn(){
        val = 100;
     }
     else if ( val > 0){
-        val = val - 3;
+        val = val - 5;
     }
     for (let y = 0; y<3; y++){
         color = color + val + ",";
@@ -136,23 +119,15 @@ function paintBtnn(){
 
 //draw function
 function drawMode (e){
-
+    drawingGrid.addEventListener("mousedown", paintMessage);
     //console.log(e.target.classList.length);
     let colorPalette = document.getElementById("colorPalette");
-    if(darkenB===0 && randomColorB ===0){
+    if(randomColorB ===0){
         if(e.target.className === 'box') {
             let palletteVal = colorPalette.value; 
             e.target.style.background=palletteVal;
            
         }
-    }
-    if(darkenB===1){ 
-        let currentBox = document.querySelectorAll(".box");
-        currentBox.forEach((bx)=>{
-            let currentBx = getComputedStyle(bx, null).getPropertyValue('background');
-            e.target.style.backgroundColor = shadeMode(currentBx);
-        })
-   
     }
 
     if(randomColorB===1){
@@ -192,9 +167,9 @@ function removeClickNDrag(){
 //erasefunction
 eraserBtn.addEventListener("click", eraser);
 function eraser(){  
-    document.getElementById("darkenCheckBox").checked = false;
+
     document.getElementById("acidCheckBox").checked = false;
-    darkenB=0, randomColorB=0;
+    randomColorB=0;
 
     if(paintBtn.classList.length === 3){
         drawingGrid.removeEventListener("mouseover",drawMode);
@@ -235,6 +210,9 @@ function eraseMode (e){
 }
 //no erase
 function noEraser(){
+    if(paintBtn.classList.length === 2){
+        drawingGrid.addEventListener("mousedown", paintMessage);
+    }
     eraserBtn.classList.remove("activePaintBtn");
     drawingGrid.removeEventListener("mouseover",eraseMode);
     drawingGrid.removeEventListener("mouseover", eraseMode);
@@ -295,9 +273,9 @@ function gridSlider(){
             gridSliderText.textContent=gridSlider.value + " x " + gridSlider.value;
     
             calculateGrid(gridSlider.value);
-                if(gridSlider.value>=70){
+                if(gridSlider.value>=100){
                     warningText.classList.add("warningText");
-                    warningText.innerText = "Going above 70x70 might slow down your browser!";  
+                    warningText.innerText = "Going above 100x100 might slow down your browser!";  
                 }
                 else{
                     warningText.textContent ="";
@@ -365,3 +343,17 @@ function drag({movementX, movementY}){ /* Makes the settings box draggable*/
     settingsWindow .style.top = ` ${topPos + movementY}px `
 }
 
+drawingGrid.addEventListener("mousedown", paintMessage); /* That warning message for paint button*/
+function paintMessage(){
+    let paintMessageWarning = document.querySelector(".paintMsg");
+    if(paintBtn.classList.length===2 && eraserBtn.classList.length ===2){
+        paintMessageWarning.style.display="block";
+        setTimeout(()=>{
+            paintMessageWarning.style.display="none";
+        }, 1000)
+    }
+
+    else{
+        drawingGrid.removeEventListener("mousedown", paintMessage);
+    }
+}

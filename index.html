@@ -16,25 +16,20 @@
         <div id="header"><h1 class="main-title">The Odin Project: Etch-A-Sketch</h1></div>
 
         <div class="tool-grid">
-            <button class="btn paint"><i class="fa-solid fa-brush"></i></button>
-            <button class="btn colorPicker"><input type="color" id="colorPalette" value="#aaf6ad"></button>
-            <button class="btn eraser"><i class="fa-solid fa-eraser"></i></button>
-            <button class = "btn paintModeBtn"><p class="paintModeText">Click<br>&<br>Drag</p></button>
-                <div class="paintOptions">
-                    <div class="drawMode"> 
-                        <div class="darken">
-                            <label for="darkenCheckBox">Darken</label>
-                            <input type="checkbox" id="darkenCheckBox">
-                        </div>
-                        <div class="randomColors">
-                            <p class="acidCheckBoxText">Random<br>Colors</p>
-                            <input type="checkbox" id="acidCheckBox">
-                        </div>
+            <button class="btn paint" data-tooltip="Paint Button"><i class="fa-solid fa-brush"><p class="paintMsg">Paint Button is off.</p></i></button>
+            <button class="btn colorPicker" data-tooltip="Color Palette"><input type="color" id="colorPalette" value="#D1E0D2"></button>
+            <div class="paintOptions">
+                <div class="drawMode"> 
+                    <div class="randomColors">
+                        <p class="acidCheckBoxText">Random<br>Colors</p>
+                        <input type="checkbox" id="acidCheckBox">
                     </div>
                 </div>
-
-            <button class="btn clearAll"><i class="fa-solid fa-rotate-right"></i></button>
-           <button class="btn settings"><i class="fa-solid fa-bars"></i></button>
+            </div>
+            <button class="btn eraser" data-tooltip="Eraser"><i class="fa-solid fa-eraser"></i></button>
+            <button class = "btn paintModeBtn" data-tooltip="Drawing Mode"><p class="paintModeText">Click<br>&<br>Drag</p></button>
+            <button class="btn clearAll" data-tooltip="Clear Grid"><i class="fa-solid fa-rotate-right"></i></button>
+           <button class="btn settings" data-tooltip="Grid Settings"><i class="fa-solid fa-bars"></i></button>
         </div>
         <div class="drawing-grid"></div>
 
@@ -47,17 +42,17 @@
         <div id="sliders">
             <div class="gridSlider">
                 <p id = "warning-msg"></p>
-                <p id="gridRangeValue">50 x 50</p>
+                <p id="gridRangeValue">100 x 100</p>
                 <div class="SliderNText">
                 <p class = "gridLabel">Grid Size</p>
-                <input type="range" min="2" max="150" value= "50" id="gridRange">
+                <input type="range" min="2" max="150" value= "100" id="gridRange">
                 </div>
             </div>
             <div class="lineSlider">
-                <p id="lineRangeValue">20%</p>
+                <p id="lineRangeValue">0%</p>
                 <div class="SliderNText">
                 <p class = "gridLabel">Grid Transparency</p>
-                <input type="range" min="0" max="100" value= "20" id="lineRange">
+                <input type="range" min="0" max="100" value= "0" id="lineRange">
                 </div>
             </div>
         </div>
