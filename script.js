@@ -8,7 +8,7 @@ let settingsCloseBtn = document.getElementById("setting-close-button")
 let currentGridSize;
 let settingsWindow = document.getElementById("settings");
 let lineSlider = document.getElementById("lineRange");
-calculateGrid(100);
+calculateGrid(70);
 let gridNodes = drawingGrid.childNodes;
 let clickOrHover = document.querySelector(".paintModeBtn");
 let clickHover = 0, lightenB =0; randomColorB=0;
